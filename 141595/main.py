@@ -1,8 +1,10 @@
 from pygame import *
 from random import randint
 
-
-
+font.init()
+font2 = font.SysFont('Arial', 40)
+score = 0
+nine = 9
 class GameSprite(sprite.Sprite):
     def __init__(self, player_image, player_x, player_y, size_x, size_y, player_speed):
         super().__init__()
@@ -44,6 +46,11 @@ class Enemy(GameSprite):
 win_width = 600
 win_height = 500
 background = transform.scale(image.load("heaven.jpg"), (win_width, win_height))
+background1 = transform.scale(image.load("desert.jpg"), (win_width, win_height))
+background2 = transform.scale(image.load("les.jpg"), (win_width, win_height))
+background3 = transform.scale(image.load("stairway.jpg"), (win_width, win_height))
+background4 = transform.scale(image.load("concert.jpg"), (win_width, win_height))
+background5 = transform.scale(image.load("Stepa.jpg"), (win_width, win_height))
 window = display.set_mode((win_width, win_height))
 
 #отвечающие за состояние игры
@@ -59,7 +66,20 @@ m_x = -4
 m_y = 2
 #
 while game:
-    window.blit(background, (0, 0))
+    if score < 15:
+        window.blit(background, (0, 0))
+    if score >= 15:
+        window.blit(background2, (0, 0))
+    if score >= 30:
+        window.blit(background1, (0, 0))
+    if score >= 45:
+        window.blit(background3, (0, 0))
+    if score >= 60:
+        window.blit(background4, (0, 0))
+    if score >= 75:
+        window.blit(background5, (0, 0))
+    if score >= 90:
+        window.blit(background6, (0, 0))
     racket1.reset()
     racket2.reset()
     
@@ -67,7 +87,8 @@ while game:
         if e.type == QUIT:
             game = False
     if finish != True:
-        
+        text = font2.render("Счёт:" + str(score), 1, (41, 71, 87))
+        window.blit(text, (10, 20))
 
         racket1.update_l()
         racket2.update_r()
@@ -75,10 +96,13 @@ while game:
         ball.rect.y += m_y
     
     if sprite.collide_rect(ball, racket1) or sprite.collide_rect(ball, racket2):
-        #ЕСЛИ ДЕВЯТКА БОЛЬШЕ НУЛЯ
+        if nine > 0:
+            nine -= 0.1
         m_x *= (-1)
-        m_x += 0.05
-        ball.rect.x += 9 * m_x
+        m_x += 0.1
+        ball.rect.x += nine * m_x
+        score = score + 1
+
 
 
         
