@@ -1,10 +1,22 @@
 from pygame import *
 from random import randint
 
+#переменные важно
 font.init()
-font2 = font.SysFont('Arial', 40)
+font2 = font.SysFont('serif', 40)
 score = 0
 nine = 9
+win_width = 600
+win_height = 500
+game = True
+finish = False
+clock = time.Clock()
+FPS = 60
+m_x = -4
+m_y = 2
+
+#классы
+#Класс родитель
 class GameSprite(sprite.Sprite):
     def __init__(self, player_image, player_x, player_y, size_x, size_y, player_speed):
         super().__init__()
@@ -16,9 +28,7 @@ class GameSprite(sprite.Sprite):
     def reset(self):
         window.blit(self.image, (self.rect.x, self.rect.y))
 
-lose1 = GameSprite('lose2.png', 200, 200, 350, 350, 0)
-lose2 = GameSprite('lose1.png', 200, 200, 350, 350, 0)
-
+#Класс наследник. ракетки!!
 class Player(GameSprite):
     def update_r(self):
         keys = key.get_pressed()
@@ -33,18 +43,8 @@ class Player(GameSprite):
         if keys[K_s] and self.rect.y < win_height - 140:
             self.rect.y += self.speed
 
-class Enemy(GameSprite):
-    def update(self):
-        global lost
-        self.rect.y += self.speed
-        if self.rect.y > W_h:
-            self.rect.x = randint(80, W_w - 80)
-            self.rect.y = 0
-            self.speed = randint(1, 7)
-            lost = lost + 1
-
-win_width = 600
-win_height = 500
+#картинки
+#фоны
 background = transform.scale(image.load("heaven.jpg"), (win_width, win_height))
 background1 = transform.scale(image.load("desert.jpg"), (win_width, win_height))
 background2 = transform.scale(image.load("les.jpg"), (win_width, win_height))
@@ -55,19 +55,17 @@ background6 = transform.scale(image.load("StepanJPG.jpg"), (win_width, win_heigh
 background7 = transform.scale(image.load("TARDIS.jpg"), (win_width, win_height))
 background8 = transform.scale(image.load("myboys.jpg"), (win_width, win_height))
 window = display.set_mode((win_width, win_height))
-
-#отвечающие за состояние игры
-game = True
-finish = False
-clock = time.Clock()
-FPS = 60
-
+#проигрыш левого
+lose1 = GameSprite('lose2.png', 200, 200, 350, 350, 0)
+#проигрыш правого
+lose2 = GameSprite('lose1.png', 200, 200, 350, 350, 0)
+#левая ракетка
 racket1 = Player('rack1.png', 30, 200, 100, 150, 6)
+#правая ракетка
 racket2 = Player('rack2.png', 450, 200, 100, 150, 6)
+#мяч
 ball = GameSprite('ball.png', 300, 0, 75, 75, 50)
-m_x = -4
-m_y = 2
-#
+
 while game:
     if score < 15:
         window.blit(background, (0, 0))
@@ -110,10 +108,6 @@ while game:
         ball.rect.x += nine * m_x
         score = score + 1
 
-
-
-        
-
     if ball.rect.y > win_height-50 or ball.rect.y < 0:
         m_y *= -1
     if ball.rect.x <=0:
@@ -124,5 +118,3 @@ while game:
     ball.reset()
     display.update()
     clock.tick(FPS)
-
-    
