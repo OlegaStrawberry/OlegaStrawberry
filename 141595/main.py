@@ -16,8 +16,8 @@ class GameSprite(sprite.Sprite):
     def reset(self):
         window.blit(self.image, (self.rect.x, self.rect.y))
 
-lose1 = GameSprite('me.jpg', 200, 200, 240, 270, 0)
-lose2 = GameSprite('me.jpg', 200, 200, 240, 270, 0)
+lose1 = GameSprite('lose2.png', 200, 200, 350, 350, 0)
+lose2 = GameSprite('lose1.png', 200, 200, 350, 350, 0)
 
 class Player(GameSprite):
     def update_r(self):
@@ -51,6 +51,9 @@ background2 = transform.scale(image.load("les.jpg"), (win_width, win_height))
 background3 = transform.scale(image.load("stairway.jpg"), (win_width, win_height))
 background4 = transform.scale(image.load("concert.jpg"), (win_width, win_height))
 background5 = transform.scale(image.load("Stepa.jpg"), (win_width, win_height))
+background6 = transform.scale(image.load("StepanJPG.jpg"), (win_width, win_height))
+background7 = transform.scale(image.load("TARDIS.jpg"), (win_width, win_height))
+background8 = transform.scale(image.load("myboys.jpg"), (win_width, win_height))
 window = display.set_mode((win_width, win_height))
 
 #отвечающие за состояние игры
@@ -68,18 +71,22 @@ m_y = 2
 while game:
     if score < 15:
         window.blit(background, (0, 0))
-    if score >= 15:
-        window.blit(background2, (0, 0))
-    if score >= 30:
-        window.blit(background1, (0, 0))
-    if score >= 45:
-        window.blit(background3, (0, 0))
-    if score >= 60:
-        window.blit(background4, (0, 0))
-    if score >= 75:
-        window.blit(background5, (0, 0))
-    if score >= 90:
+    if score >= 15 and score < 30:
+        window.blit(background7, (0, 0))
+    if score >= 30 and score < 45:
         window.blit(background6, (0, 0))
+    if score >= 45 and score < 60:
+        window.blit(background8, (0, 0))
+    if score >= 60 and score < 75:
+        window.blit(background4, (0, 0))
+    if score >= 75 and score < 90:
+        window.blit(background5, (0, 0))
+    if score >= 90 and score < 100:
+        window.blit(background1, (0, 0))
+    if score >= 100 and score < 110:
+        window.blit(background2, (0, 0))
+    if score >= 110:
+        window.blit(background3, (0, 0))
     racket1.reset()
     racket2.reset()
     
@@ -87,7 +94,7 @@ while game:
         if e.type == QUIT:
             game = False
     if finish != True:
-        text = font2.render("Счёт:" + str(score), 1, (41, 71, 87))
+        text = font2.render("Счёт:" + str(score), 1, (214, 137, 201))
         window.blit(text, (10, 20))
 
         racket1.update_l()
