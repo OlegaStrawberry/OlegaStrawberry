@@ -108,12 +108,18 @@ while game:
         ball.rect.x += nine * m_x
         score = score + 1
 
-    if ball.rect.y > win_height-50 or ball.rect.y < 0:
+    if ball.rect.y > win_height-50 or ball.rect.y < -10:
         m_y *= -1
-    if ball.rect.x <=0:
+    if ball.rect.x <= -70:
         lose1.reset()
+        text = font2.render("Счёт:" + str(score), 1, (214, 137, 201))
+        window.blit(text, (10, 20))
+        finish = True
     if ball.rect.x >= 600:
         lose2.reset()
+        text = font2.render("Счёт:" + str(score), 1, (214, 137, 201))
+        window.blit(text, (10, 20))
+        finish = True
     
     ball.reset()
     display.update()
